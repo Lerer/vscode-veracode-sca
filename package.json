@@ -14,6 +14,27 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "veracode-sca",
+					"title": "Veracode SCA",
+					"icon": "resources/left-arrow.svg"
+				}
+			]
+		},
+		"views": {
+			"veracode-sca": [
+				{
+					"id": "repository-branchs",
+					"name": "Branches"
+				},
+				{
+					"id": "repository-tags",
+					"name": "Tags"
+				}
+			]
+		},
 		"commands": [
 			{
 				"command": "veracode-sca-ts.helloWorld",
