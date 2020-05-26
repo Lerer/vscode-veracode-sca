@@ -31,13 +31,14 @@
 					"name": "Node Dependencies"
 				},
 				{
-					"id": "repository-branchs",
-					"name": "Branches"
+					"id": "workSpaces",
+					"name": "Workspaces"
 				},
 				{
-					"id": "repository-tags",
-					"name": "Tags"
+					"id": "repository-branchs",
+					"name": "Branches"
 				}
+				
 			]
 		},
 		"commands": [

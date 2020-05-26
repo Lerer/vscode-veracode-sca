@@ -2,7 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-import { NodeDependenciesProvider, Dependency } from './sca-explorer';
+import { NodeDependenciesProvider, Dependency } from './nodeDependencies';
+import {SCAWorkspacesView} from './sca-explorer';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -26,9 +27,13 @@ export function activate(context: vscode.ExtensionContext) {
 	let ws = vscode.workspace;
 	let folders = ws ? ws.workspaceFolders : undefined;
 	if (folders !== undefined) {
-		const nodeDependenciesProvider = new NodeDependenciesProvider(folders[0].uri.path);
+		//const nodeDependenciesProvider = new NodeDependenciesProvider(folders[0].uri.path);
+		const nodeDependenciesProvider = new NodeDependenciesProvider('c:\\Users\\coby_\\OneDrive\\projects\\veracode-sca');
 		vscode.window.registerTreeDataProvider('nodeDependencies', nodeDependenciesProvider);
 	}
+
+	// SCA Workspaces
+	new SCAWorkspacesView(context);
 }
 
 // this method is called when your extension is deactivated
