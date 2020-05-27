@@ -24,16 +24,18 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(disposable);
-	let ws = vscode.workspace;
-	let folders = ws ? ws.workspaceFolders : undefined;
-	if (folders !== undefined) {
-		//const nodeDependenciesProvider = new NodeDependenciesProvider(folders[0].uri.path);
-		const nodeDependenciesProvider = new NodeDependenciesProvider('c:\\Users\\coby_\\OneDrive\\projects\\veracode-sca');
-		vscode.window.registerTreeDataProvider('nodeDependencies', nodeDependenciesProvider);
-	}
+	// let ws = vscode.workspace;
+	// let folders = ws ? ws.workspaceFolders : undefined;
+	// if (folders !== undefined) {
+	// 	//const nodeDependenciesProvider = new NodeDependenciesProvider(folders[0].uri.path);
+	// 	const nodeDependenciesProvider = new NodeDependenciesProvider('c:\\Users\\coby_\\OneDrive\\projects\\veracode-sca');
+	// 	vscode.window.registerTreeDataProvider('nodeDependencies', nodeDependenciesProvider);
+	// }
 
 	// SCA Workspaces
-	new SCAWorkspacesView(context);
+	const scaWorkspacesProvider = new SCAWorkspacesView(context);
+	//vscode.window.registerTreeDataProvider('workSpaces', scaWorkspacesProvider);
+
 }
 
 // this method is called when your extension is deactivated

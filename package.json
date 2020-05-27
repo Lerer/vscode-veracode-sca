@@ -11,7 +11,7 @@
 	],
 	"activationEvents": [
 		"onCommand:veracode-sca-ts.helloWorld",
-		"onView:nodeDependencies"
+		"onView:workSpaces"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -27,18 +27,17 @@
 		"views": {
 			"veracode-sca": [
 				{
-					"id": "nodeDependencies",
-					"name": "Node Dependencies"
-				},
-				{
 					"id": "workSpaces",
 					"name": "Workspaces"
+				},
+				{
+					"id": "wsProjects",
+					"name": "Projects"
 				},
 				{
 					"id": "repository-branchs",
 					"name": "Branches"
 				}
-				
 			]
 		},
 		"commands": [
