@@ -35,8 +35,8 @@
 					"name": "Projects"
 				},
 				{
-					"id": "repository-branchs",
-					"name": "Branches"
+					"id": "wsIssues",
+					"name": "Issues"
 				}
 			]
 		},
