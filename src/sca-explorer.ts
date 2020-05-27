@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { Context } from 'mocha';
 
 export class SCAWorkspacesView  {
   constructor(context: vscode.ExtensionContext) {
@@ -20,8 +19,6 @@ export class SCAIssuesView  {
 		const view = vscode.window.createTreeView('wsIssues', { treeDataProvider: SCAIssuesTreeDataProvider(), showCollapseAll: true });
   }
 }
-
-
 
 function SCAWorkspacesTreeDataProvider(): vscode.TreeDataProvider<{ id: string }> {
   //vscode.window.showInformationMessage('SCAWorkspacesTreeDataProvider');
@@ -154,7 +151,6 @@ function getIssueTreeItem(id: string): vscode.TreeItem {
 }
 
 
-
 const scaWorkspaces = {
   "_embedded":{
     "workspaces":[
@@ -193,6 +189,7 @@ const scaWorkspaces = {
     }
   };
 
+
 const scaProjects = {
   "_embedded":{
     "projects":[
@@ -219,6 +216,7 @@ const scaProjects = {
   "page":{"size":20,"total_elements":2,"total_pages":1,"number":0}
 };
 
+
 const scaProjectDetails = {
   "id":"d27cc383-2ba7-44bc-935f-c969d8e46ab1",
   "name":"Lerer/react-complete-guide",
@@ -234,6 +232,7 @@ const scaProjectDetails = {
     "self":{"href":"https://api.veracode.com/srcclr/v3/workspaces/2a5d2d8e-fe51-4af7-bc31-b4eef4e96491/projects/d27cc383-2ba7-44bc-935f-c969d8e46ab1"}
   }};
 
+  
   const scaWorkspaceIssues = {
     "_embedded":{
       "issues":[
