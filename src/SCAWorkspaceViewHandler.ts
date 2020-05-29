@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import {specificRequest} from './veracodeWrapper';
+import {specificRequest} from './veracode/veracodeAPIWrapper';
 
 
 interface SCAWorkspaceElement {
@@ -39,9 +39,7 @@ export class SCAWorkspacesViewProvider  implements vscode.TreeDataProvider<SCAWo
         let res = await specificRequest('getWorkspaces',{});
         //console.log(dynamicScaWorkspaces);
         if (res.status===200 || res.status===201){
-            console.log('before refresh of data');
             dynamicScaWorkspaces = {...res.data};
-            console.log('after refresh of data');
         }
         //console.log(dynamicScaWorkspaces);
         this._onDidChangeTreeData.fire(undefined);

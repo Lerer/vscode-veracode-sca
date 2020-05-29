@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import {specificRequest} from './veracodeWrapper';
+import {specificRequest} from './veracode/veracodeAPIWrapper';
 
 interface SCAIssueElement {
     id: string
