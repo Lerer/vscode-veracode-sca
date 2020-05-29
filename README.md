@@ -1,65 +1,55 @@
-# veracode-sca-ts README
+# Veracode SCA README
 
-This is the README for your extension "veracode-sca-ts". After writing up a brief description, we recommend including the following sections.
+A very simple plugin for veracode SCA to get agent-base SCA results into VSCode IDE 
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+The current version is still lacking images to make it super nice, however, you can already have the following:
 
-For example if there is an image subfolder under your extension project workspace:
+* Get a list of your workspaces
+* Get a list of project within each of your workspaces - by selecting a workspace
+* Get a list of issues within your individual project
 
-\!\[feature X\]\(images/feature-x.png\)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+
+![Screenshot](media/Screen%20Shot%202020-05-30%20at%201.35.54%20am.png?raw=true)
+
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+The extension is utilizing the credentials setup in your pc account home directory. 
+See instructions in [Veracode Help](https://help.veracode.com/reader/LMv_dtSHyb7iIxAQznC~9w/zm4hbaPkrXi02YmacwH3wQ)
+
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+This extension **will** contributes the following settings:
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+* `veracode.sca.profile`: specify the `profile` to use from the credentials file (currently only set to `[default]`)
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Images and icons need update
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
+- Initial release of the plugin
+- Can pull Workspaces, Projects, and Issues 
 
-Initial release of ...
+### future...
 
-### 1.0.1
+- add tooltip to issues
+- add links to Veracode platform
+- add links to issues description
 
-Fixed issue #.
 
-### 1.1.0
-
-Added features X, Y, and Z.
 
 -----------------------------------------------------------------------------------------------------------
 
-## Working with Markdown
+## Feedback
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+- If you have an improvement idea or you found any defect, please add an 'issue' 
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+**Hope you find this plugin usefull!**
