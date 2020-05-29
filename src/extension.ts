@@ -2,8 +2,9 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-import { NodeDependenciesProvider, Dependency } from './nodeDependencies';
+//import { NodeDependenciesProvider, Dependency } from './nodeDependencies';
 import {SCAWorkspacesView} from './sca-explorer';
+import {specificRequest} from './veracodeWrapper';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -21,6 +22,12 @@ export function activate(context: vscode.ExtensionContext) {
 
 		// Display a message box to the user
 		vscode.window.showInformationMessage('Hello World from Veracode SCA (TS)!');
+	});
+
+	vscode.commands.registerCommand("workSpaces.selectNode", async (itemId:string) => {
+		vscode.window.showInformationMessage(itemId);
+		//specificRequest('getFixedWorkspaceProjects',{workspace_id:itemId});
+		let projectsData = specificRequest('getWorkspaceProjects',{workspace_id:itemId});
 	});
 
 	context.subscriptions.push(disposable);
