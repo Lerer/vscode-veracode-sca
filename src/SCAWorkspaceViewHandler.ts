@@ -1,46 +1,62 @@
 import * as vscode from 'vscode';
+import {specificRequest} from './veracodeWrapper';
 
-export class SCAWorkspacesView  {
-    constructor(context: vscode.ExtensionContext) {
-        const view = vscode.window.createTreeView('workSpaces', { treeDataProvider: SCAWorkspacesTreeDataProvider(), showCollapseAll: true });
-        //const scaProjectsProvider = new SCAProjectsView(context);
-    }
 
-    loadWorkspacesData ()  {
-        
-    }
+interface SCAWorkspaceElement {
+    id: string
 }
 
-function SCAWorkspacesTreeDataProvider(): vscode.TreeDataProvider<{ id: string }> {
-    return {
-        getChildren: (element: {id: string}): {id: string}[] => {
-            if ((!element) || (element===undefined) || element.id==='_root') {
-                //vscode.window.showInformationMessage("root element");
-                return scaWorkspaces._embedded.workspaces
-                .map(ws => { return {id: ws.id};});
-            }
-            if (element.id !== '_root') {
-                vscode.window.showInformationMessage("leaf element: "+element.id);
+export class SCAWorkspacesViewProvider  implements vscode.TreeDataProvider<SCAWorkspaceElement>{
+    constructor(context: vscode.ExtensionContext) {    }
+
+    private _onDidChangeTreeData: vscode.EventEmitter<vscode.TreeItem | undefined> = new vscode.EventEmitter<vscode.TreeItem | undefined>();
+    readonly onDidChangeTreeData: vscode.Event<any> = this._onDidChangeTreeData.event;
+
+    getChildren (element: SCAWorkspaceElement|undefined):SCAWorkspaceElement[]   {
+        if ((!element) || (element===undefined) || element.id==='_root'){
+            if (dynamicScaWorkspaces._embedded!==undefined && dynamicScaWorkspaces._embedded.workspaces!==undefined) {
+                vscode.window.showInformationMessage("root element");
+                return dynamicScaWorkspaces._embedded.workspaces
+                    .map(ws => { return {id: ws.id};});
+            } else {
                 return [];
             }
-            vscode.window.showInformationMessage("not possible "+element);
-            return [];
-        },
-        getTreeItem: (element: { id: string }): vscode.TreeItem => {
-            const treeItem = getWSTreeItem(element.id);
-            return treeItem;
         }
-    };
+        if (element.id !== '_root') {
+            vscode.window.showInformationMessage("leaf element: "+element.id);
+            return [];
+        }
+        vscode.window.showInformationMessage("not possible "+element);
+        return [];
+    }
+
+    getTreeItem (element: SCAWorkspaceElement): vscode.TreeItem  {
+        const treeItem = getWSTreeItem(element.id);
+        return treeItem;
+    }
+
+    async refresh() {
+        let res = await specificRequest('getWorkspaces',{});
+        console.log(dynamicScaWorkspaces);
+        if (res.status===200 || res.status===201){
+            console.log('before refresh of data');
+            dynamicScaWorkspaces = {...res.data};
+            console.log('after refresh of data');
+        }
+        console.log(dynamicScaWorkspaces);
+        this._onDidChangeTreeData.fire(undefined);
+    }
 }
+
   
 function getWSTreeItem(id: string): vscode.TreeItem {
-    //vscode.window.showInformationMessage("getTreeItem for id "+id);
+    vscode.window.showInformationMessage("getTreeItem for id "+id);
     if (id==='_root') {
         return {
         label: "Workspaces"
         };
     }
-    let wsElement = scaWorkspaces._embedded.workspaces.filter(ele => ele.id === id)[0];
+    let wsElement = dynamicScaWorkspaces._embedded.workspaces.filter(ele => ele.id === id)[0];
     //vscode.window.showInformationMessage("getTreeItem "+wsElement);
     return {
         label: wsElement["name"],
@@ -54,8 +70,9 @@ function getWSTreeItem(id: string): vscode.TreeItem {
     };
 }
   
-
-let scaWorkspaces = {
+let dynamicScaWorkspaces: any = {_embedded:{workSpaces:[]}};
+/*
+let dynamicScaWorkspaces:any = {
 "_embedded":{
     "workspaces":[
     {
@@ -92,5 +109,5 @@ let scaWorkspaces = {
     "number":0
     }
 };
-  
+  */
    

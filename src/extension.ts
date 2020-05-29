@@ -3,7 +3,7 @@
 import * as vscode from 'vscode';
 
 //import { NodeDependenciesProvider, Dependency } from './nodeDependencies';
-import {SCAWorkspacesView} from './sca-explorer';
+import {SCAWorkspacesViewProvider} from './SCAWorkspaceViewHandler';
 import {specificRequest} from './veracodeWrapper';
 
 // this method is called when your extension is activated
@@ -40,7 +40,16 @@ export function activate(context: vscode.ExtensionContext) {
 	// }
 
 	// SCA Workspaces
-	const scaWorkspacesProvider = new SCAWorkspacesView(context);
+	const scaWorkspacesProvider = new SCAWorkspacesViewProvider(context);
+	vscode.window.createTreeView('workSpaces', {
+		treeDataProvider: scaWorkspacesProvider
+	  });
+	vscode.commands.registerCommand('workSpaces.refreshEntry', () => {
+			console.log('triggered');
+			scaWorkspacesProvider.refresh();
+		}
+	);
+	scaWorkspacesProvider.refresh();
 	//vscode.window.registerTreeDataProvider('workSpaces', scaWorkspacesProvider);
 
 }

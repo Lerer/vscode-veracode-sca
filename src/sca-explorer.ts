@@ -5,6 +5,10 @@ export class SCAWorkspacesView  {
     const view = vscode.window.createTreeView('workSpaces', { treeDataProvider: SCAWorkspacesTreeDataProvider(), showCollapseAll: true });
     const scaProjectsProvider = new SCAProjectsView(context);
   }
+
+  refresh() {
+    
+  }
 }
 
 export class SCAProjectsView  {

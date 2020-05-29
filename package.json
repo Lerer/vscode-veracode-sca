@@ -20,7 +20,7 @@
 				{
 					"id": "veracode-sca",
 					"title": "Veracode SCA",
-					"icon": "resources/left-arrow.svg"
+					"icon": "media/veracode-sca.svg"
 				}
 			]
 		},
@@ -44,8 +44,25 @@
 			{
 				"command": "veracode-sca-ts.helloWorld",
 				"title": "Hello World"
-			}
-		]
+			},
+			{
+                "command": "workSpaces.refreshEntry",
+                "title": "Refresh",
+                "icon": {
+                    "light": "resources/light/refresh.svg",
+                    "dark": "resources/dark/refresh.svg"
+                }
+            }
+		],
+		"menus": {
+            "view/title": [
+                {
+                    "command": "workSpaces.refreshEntry",
+                    "when": "view == workSpaces",
+                    "group": "navigation"
+                }
+			  ]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

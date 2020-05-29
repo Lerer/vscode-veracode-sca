@@ -60,6 +60,7 @@ export async function specificRequest (requestType:string,parameters:any|undefin
     let requestObj:RequestDetails = requests.filter(obj=> obj.name===requestType)[0];
     let res = {
         message: 'No specific request found',
+        status: 404,
         data: {}
     };
     if (requestObj !== undefined) {
@@ -75,16 +76,18 @@ export async function specificRequest (requestType:string,parameters:any|undefin
             let query = specificReqObj.queryParams || '';
             const url = 'https://'+specificReqObj.host+specificReqObj.path+query;
            
-            let apiService = new VeracodeApiService();
+            let apiService = new ApiService();
             let apiRes = await apiService.query(header,url);
             res = {
-                'message': apiRes.statusText,
+                message: apiRes.statusText,
+                status: apiRes.status,
                 data: apiRes.data
             };
         } else {
             res = {
                 message: 'couldn\'t generate header',
-                data: {}
+                data: {},
+                status: 401
             };
         }
     }
@@ -98,7 +101,7 @@ async function requestSpecificRequestHeader (requestObj:RequestDetails)  {
     }
 } 
 
-export class VeracodeApiService {
+export class ApiService {
     async query(authHeader:string,url:string) {
         console.log(url);
         console.log(authHeader);
