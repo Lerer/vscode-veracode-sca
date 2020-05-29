@@ -34,25 +34,18 @@ const requests: RequestDetails[] = [
         queryParams: ''
     },
     {
-        name: "getFixedWorkspaceProjects",
-        path: '/srcclr/v3/workspaces/2a5d2d8e-fe51-4af7-bc31-b4eef4e96491/projects',
-        host: 'api.veracode.com',
-        method: 'GET',
-        queryParams: ''
-    },
-    {
         name: "getProjectDetails",
-        path: '/srcclr/v3/workspaces/2a5d2d8e-fe51-4af7-bc31-b4eef4e96491/projects/d27cc383-2ba7-44bc-935f-c969d8e46ab1',
+        path: '/srcclr/v3/workspaces/2a5d2d8e-fe51-4af7-bc31-b4eef4e96491/projects/<project_id>',
         host: 'api.veracode.com',
         method: 'GET',
         queryParams: ''
     },
     {
-        name: "getWorkspaceIssues",
-        path: '/srcclr/v3/workspaces/2a5d2d8e-fe51-4af7-bc31-b4eef4e96491/issues',
+        name: "getProjectIssues",
+        path: '/srcclr/v3/workspaces/<workspace_id>/issues?project_id=<project_id>&size=100',
         host: 'api.veracode.com',
         method: 'GET',
-        queryParams: '?project_id=d27cc383-2ba7-44bc-935f-c969d8e46ab1'
+        queryParams: ''
     }
 ];
 
@@ -68,7 +61,7 @@ export async function specificRequest (requestType:string,parameters:any|undefin
         let newPath:string = replaceParameters(requestObj.path,parameters);
         // setup a new parameterize request details object
         let specificReqObj = {...requestObj,path:newPath};
-        console.log(specificReqObj);
+
         // generate the hmac header
         const header = await requestSpecificRequestHeader(specificReqObj);
         if (header!==undefined) {
@@ -103,8 +96,8 @@ async function requestSpecificRequestHeader (requestObj:RequestDetails)  {
 
 export class ApiService {
     async query(authHeader:string,url:string) {
-        console.log(url);
-        console.log(authHeader);
+        // console.log(url);
+        // console.log(authHeader);
         const response = await axios.get(url, 
             { headers: 
                 { 
@@ -113,12 +106,12 @@ export class ApiService {
                 } 
             })
             .catch(error => error.message);
-        console.log(response);
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
+        // console.log(response);
+        // console.log(response.data);
+        // console.log(response.status);
+        // console.log(response.statusText);
+        // console.log(response.headers);
+        // console.log(response.config);
         return response;
     }
 }
@@ -128,8 +121,8 @@ function validID (id: string) {
 }
 
 function replaceParameters(requestPath:string,parameters: any|undefined|null) {
-    console.log(requestPath);
-    console.log(parameters);
+    //console.log(requestPath);
+    // console.log(parameters);
     let newPath = requestPath;
     if (parameters===undefined || parameters ===null || parameters==={}){
         return newPath;
@@ -137,11 +130,10 @@ function replaceParameters(requestPath:string,parameters: any|undefined|null) {
         if (requestPath.indexOf('<project_id>')>-1 && parameters.project_id!==undefined && validID(parameters.project_id)){
             newPath = newPath.replace('<project_id>',parameters.project_id);
         }
-        console.log(requestPath.indexOf('<workspace_id>')>-1 && parameters.workspace_id!==undefined && validID(parameters.workspace_id));
         if (requestPath.indexOf('<workspace_id>')>-1 && parameters.workspace_id!==undefined && validID(parameters.workspace_id)){
             newPath = newPath.replace('<workspace_id>',parameters.workspace_id);
         }
     }
-    console.log(newPath);
+    // console.log(newPath);
     return newPath;
 }

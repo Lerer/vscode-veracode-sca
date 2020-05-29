@@ -15,7 +15,7 @@ export class SCAWorkspacesViewProvider  implements vscode.TreeDataProvider<SCAWo
     getChildren (element: SCAWorkspaceElement|undefined):SCAWorkspaceElement[]   {
         if ((!element) || (element===undefined) || element.id==='_root'){
             if (dynamicScaWorkspaces._embedded!==undefined && dynamicScaWorkspaces._embedded.workspaces!==undefined) {
-                vscode.window.showInformationMessage("root element");
+                //vscode.window.showInformationMessage("root element");
                 return dynamicScaWorkspaces._embedded.workspaces
                     .map(ws => { return {id: ws.id};});
             } else {
@@ -23,10 +23,10 @@ export class SCAWorkspacesViewProvider  implements vscode.TreeDataProvider<SCAWo
             }
         }
         if (element.id !== '_root') {
-            vscode.window.showInformationMessage("leaf element: "+element.id);
+            //vscode.window.showInformationMessage("leaf element: "+element.id);
             return [];
         }
-        vscode.window.showInformationMessage("not possible "+element);
+        //vscode.window.showInformationMessage("not possible "+element);
         return [];
     }
 
@@ -37,20 +37,20 @@ export class SCAWorkspacesViewProvider  implements vscode.TreeDataProvider<SCAWo
 
     async refresh() {
         let res = await specificRequest('getWorkspaces',{});
-        console.log(dynamicScaWorkspaces);
+        //console.log(dynamicScaWorkspaces);
         if (res.status===200 || res.status===201){
             console.log('before refresh of data');
             dynamicScaWorkspaces = {...res.data};
             console.log('after refresh of data');
         }
-        console.log(dynamicScaWorkspaces);
+        //console.log(dynamicScaWorkspaces);
         this._onDidChangeTreeData.fire(undefined);
     }
 }
 
   
 function getWSTreeItem(id: string): vscode.TreeItem {
-    vscode.window.showInformationMessage("getTreeItem for id "+id);
+    //vscode.window.showInformationMessage("getTreeItem for id "+id);
     if (id==='_root') {
         return {
         label: "Workspaces"
@@ -61,7 +61,7 @@ function getWSTreeItem(id: string): vscode.TreeItem {
     return {
         label: wsElement["name"],
         tooltip: `Tooltip for ${wsElement["name"]}`,
-        resourceUri: vscode.Uri.parse(wsElement._links.self.href),
+        //resourceUri: vscode.Uri.parse(wsElement._links.self.href),
         command: {
             command:"workSpaces.selectNode",
             title: "Workspace selected",

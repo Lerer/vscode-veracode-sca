@@ -4,8 +4,8 @@ import * as vscode from 'vscode';
 
 //import { NodeDependenciesProvider, Dependency } from './nodeDependencies';
 import {SCAWorkspacesViewProvider} from './SCAWorkspaceViewHandler';
-import {specificRequest} from './veracodeWrapper';
 import {SCAProjectsViewProvider} from './SCAProjectsViewHandler';
+import {SCAIssuesViewProvider} from './SCAIssuesViewHandler';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -18,14 +18,14 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('veracode-sca-ts.helloWorld', () => {
+	//let disposable = vscode.commands.registerCommand('veracode-sca-ts.helloWorld', () => {
 		// The code you place here will be executed every time your command is executed
 
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Veracode SCA (TS)!');
-	});
+	//	vscode.window.showInformationMessage('Hello World from Veracode SCA (TS)!');
+	//});
 
-	context.subscriptions.push(disposable);
+	//context.subscriptions.push(disposable);
 	
 	// SCA Workspaces
 	const scaWorkspacesProvider = new SCAWorkspacesViewProvider(context);
@@ -33,8 +33,9 @@ export function activate(context: vscode.ExtensionContext) {
 		treeDataProvider: scaWorkspacesProvider
 	});
 	vscode.commands.registerCommand('workSpaces.refreshEntry', () => {
-			console.log('triggered');
 			scaWorkspacesProvider.refresh();
+			scaProjectsProvider.cleanProjects();
+			scaIssuesProvider.cleanIssues();
 		}
 	);
 
@@ -45,18 +46,19 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	vscode.commands.registerCommand("workSpaces.selectNode", async (itemId:string) => {
-		vscode.window.showInformationMessage(itemId);
-		//specificRequest('getFixedWorkspaceProjects',{workspace_id:itemId});
-		//let projectsData = specificRequest('getWorkspaceProjects',{workspace_id:itemId});
 		scaProjectsProvider.refreshProjects(itemId);
+		scaIssuesProvider.cleanIssues();
 	});
 
+	// SCA Issues
+	const scaIssuesProvider = new SCAIssuesViewProvider(context);
+	vscode.window.createTreeView('wsIssues',{treeDataProvider: scaIssuesProvider});
+	vscode.commands.registerCommand("wsProjects.selectNode", async (projId:string,wsId:string) => {
+		scaIssuesProvider.refreshIssues(projId,wsId);
+	});
 
 	// load Workspace list on load
 	scaWorkspacesProvider.refresh();
-
-	
-
 
 }
 
