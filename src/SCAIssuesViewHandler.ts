@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import {specificRequest} from './veracode/veracodeAPIWrapper';
+import * as path from 'path';
 
 interface SCAIssueElement {
     id: string
@@ -36,6 +37,7 @@ export class SCAIssuesViewProvider  implements vscode.TreeDataProvider<SCAIssueE
     }
 
     getTreeItem (element: SCAIssueElement): vscode.TreeItem  {
+      //console.log(getIssueTreeItem(element.id));
         return getIssueTreeItem(element.id);
     }
 
@@ -46,6 +48,8 @@ export class SCAIssuesViewProvider  implements vscode.TreeDataProvider<SCAIssueE
         if (res.status===200 || res.status===201){
             scaIssues = {...res.data};
         }
+        console.log('issues data:');
+        console.log(scaIssues);
         // console.log('refreshIssues - before fire');
         this._onDidChangeTreeData.fire(undefined);    
       }
@@ -58,6 +62,21 @@ export class SCAIssuesViewProvider  implements vscode.TreeDataProvider<SCAIssueE
     }
 };
 
+function severityRating(cvssValue: number): string {
+  if (cvssValue<2.1 && cvssValue>=0.1) {
+    return 'very_low';
+  } else if (cvssValue<4.1){
+    return 'low';
+  } else if (cvssValue<6.1) {
+    return 'medium';
+  } else if (cvssValue<8.1) {
+    return 'high';
+  } else if (cvssValue<10.1) {
+    return 'very_high';
+  } 
+  return 'informational';
+}
+
 
 function getIssueTreeItem(id: string): vscode.TreeItem {
     //vscode.window.showInformationMessage("getTreeItem for id "+id);
@@ -68,9 +87,14 @@ function getIssueTreeItem(id: string): vscode.TreeItem {
     }
     let issueElement = scaIssues._embedded.issues.filter(ele => ele.id === id)[0];
     let issueType = issueElement.issue_type;
+    let sevRating = severityRating(issueElement.severity);
     if (issueType==='library') {
       return {
-        label: 'Outdated library ['+ issueElement.library.name+' '+issueElement.library.version+'] => '+issueElement.library_updated_version
+        label: 'Outdated library ['+ issueElement.library.name+' '+issueElement.library.version+'] => '+issueElement.library_updated_version,
+        iconPath: {
+          light: path.join(__dirname,'..','resources','light','severity_'+sevRating+'.svg'),
+          dark: path.join(__dirname,'..','resources','dark','severity_'+sevRating+'.svg'),
+        }
       };
     } else if (issueType === 'vulnerability') {
       let cve = issueElement.vulnerability?.cve;
@@ -78,18 +102,30 @@ function getIssueTreeItem(id: string): vscode.TreeItem {
         cve = 'No CVE';
       }
       return {
-        label: 'Vulnerability [' + issueElement.library.name+' '+issueElement.library.version+'] => '+cve+':'+issueElement.vulnerability?.title
+        label: 'Vulnerability [' + issueElement.library.name+' '+issueElement.library.version+'] => '+cve+':'+issueElement.vulnerability?.title,
+        iconPath: {
+          light: path.join(__dirname,'..','resources','light','severity_'+sevRating+'.svg'),
+          dark: path.join(__dirname,'..','resources','dark','severity_'+sevRating+'.svg'),
+        }
       };
     } else if (issueType==='license') {
       return {
-        label: 'License ['+ issueElement.library.name+' '+issueElement.library.version+'] => '+issueElement.license.id+' -> with risk: '+issueElement.license.risk
+        label: 'License ['+ issueElement.library.name+' '+issueElement.library.version+'] => '+issueElement.license.id+' -> with risk: '+issueElement.license.risk,
+        iconPath: {
+          light: path.join(__dirname,'..','resources','light','severity_'+sevRating+'.svg'),
+          dark: path.join(__dirname,'..','resources','dark','severity_'+sevRating+'.svg'),
+        }
       };
    
     } else {
       return {
         label: issueElement.issue_type+ ' [' + issueElement.library.name+' '+issueElement.library.version+']' ,
         //tooltip: `Tooltip for ${wsElement["name"]}`,
-        resourceUri: vscode.Uri.parse(issueElement._links.self.href)
+        resourceUri: vscode.Uri.parse(issueElement._links.self.href),
+        iconPath: {
+          light: path.join(__dirname,'..','resources','light','severity_'+sevRating+'.svg'),
+          dark: path.join(__dirname,'..','resources','dark','severity_'+sevRating+'.svg'),
+        }
       };
     }
   }
