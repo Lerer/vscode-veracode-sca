@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="45px" height="45px" viewBox="0 0 45 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Severity-Icon/Medium_light" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Clear-Box" x="0" y="0" width="45" height="45"></rect>
+        <g id="Group-18" transform="translate(4.000000, 4.000000)">
+            <circle id="Oval-Copy-4" fill="#FD7333" fill-rule="nonzero" cx="18.5" cy="18.5" r="18.5"></circle>
+            <path d="M18.633719,17.7993649 L24.7310063,11.9279676 L24.8697459,11.9279792 L27.3360425,14.3037036 L27.3360285,14.4477586 L18.7028247,22.7606737 L18.7025646,22.7609242 L18.5638441,22.7609252 L9.93064033,14.448509 L9.93063925,14.3044373 L12.397972,11.9287129 L12.5366935,11.9287129 L18.633719,17.7993649 Z" id="Path-Copy" stroke="#FFFFFF" stroke-width="0.2" fill="#FFFFFF" transform="translate(18.633333, 17.344444) rotate(-180.000000) translate(-18.633333, -17.344444) "></path>
+        </g>
+    </g>
+</svg>
