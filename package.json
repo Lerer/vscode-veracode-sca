@@ -1,5 +1,5 @@
 {
-	"name": "veracode-sca-ts",
+	"name": "veracode-sca",
 	"displayName": "Veracode SCA (TS)",
 	"description": "",
 	"version": "0.0.1",
@@ -10,7 +10,6 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:veracode-sca-ts.helloWorld",
 		"onView:workSpaces"
 	],
 	"main": "./out/extension.js",
@@ -42,10 +41,6 @@
 		},
 		"commands": [
 			{
-				"command": "veracode-sca-ts.helloWorld",
-				"title": "Hello World"
-			},
-			{
                 "command": "workSpaces.refreshEntry",
                 "title": "Refresh",
                 "icon": {
@@ -62,7 +57,22 @@
                     "group": "navigation"
                 }
 			  ]
-		}
+		},
+		"configuration": [
+            {
+                "type": "object",
+                "title": "Veracode",
+                "properties": {
+                    "veracode.API profile in configuration file": {
+                        "$id": "securityProfile",
+                        "type": "string",
+                        "default": "default",
+                        "markdownDescription": "The profile (or section) of API credentials to be used for communicating with Veracode SCA.",
+                        "scope": "application"
+                    }
+                }
+            }
+        ]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
@@ -88,7 +98,6 @@
 	},
 	"dependencies": {
 		"axios": "^0.19.2",
-		"configparser": "^0.3.6",
-		"node-fetch": "^2.6.0"
+		"configparser": "^0.3.6"
 	}
 }

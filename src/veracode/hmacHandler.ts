@@ -1,5 +1,7 @@
 import * as crypto from  'crypto';
 import {getLocalAuthorization} from './accessPropertiesReader';
+import * as vscode from 'vscode';
+
 
 const headerPreFix = "VERACODE-HMAC-SHA-256";
 const verStr = "vcode_request_version_1";
@@ -26,20 +28,18 @@ function getByteArray(hex:string)  {
 }
 
 export function generateHeader (host:string, urlPpath:string, method:string) {
-    // for cloud deployment - these should be the credentials
-    let id = process.env.veracode_api_key_id;
-    let secret = process.env.veracode_api_key_secret;
+    let id:string = '';
+    let secret:string = '';
 
-    // Replace with your own profile in local.settings.json
-    if (id === undefined || id.length===0 || secret===undefined || secret.length===0){
-        var authProfile = process.env.veracode_auth_profile;
-        authProfile = 'azure_api';
-        if (authProfile !== undefined && authProfile.length>0) {
-            const credentials = getLocalAuthorization(authProfile);
-            // context.log(credentials); - uncomment only for local debug
-            id = credentials.API_ID;
-            secret = credentials.SECRET;
-        }
+    let configSection = vscode.workspace.getConfiguration('veracode');
+    let apiAuthProfile = configSection.get('API profile in configuration file') as string;
+
+    // Use the credentials profile from the IDE settings
+    if (apiAuthProfile !== undefined && apiAuthProfile.length>0) {
+        const credentials = getLocalAuthorization(apiAuthProfile);
+        // context.log(credentials); - uncomment only for local debug
+        id = credentials.API_ID;
+        secret = credentials.SECRET;
     }
     
     if (id === undefined || id.length===0 || secret===undefined || secret.length===0){
