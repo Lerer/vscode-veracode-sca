@@ -33,15 +33,15 @@ Images and icons need update
 
 ## Release Notes
 
-### 0.0.1
-
-- Initial release of the plugin
-- Can pull Workspaces, Projects, and Issues 
-
 ### 0.0.2
 
 - update issues icons
 - added configuration for selecting section in the credentials file
+
+### 0.0.1
+
+- Initial release of the plugin
+- Can pull Workspaces, Projects, and Issues 
 
 ### future...
 
@@ -49,7 +49,7 @@ Images and icons need update
 - add links to Veracode platform
 - add links to issues description
 
-
+(See repository issues for additional items)
 
 -----------------------------------------------------------------------------------------------------------
 
