@@ -48,8 +48,8 @@ export class SCAIssuesViewProvider  implements vscode.TreeDataProvider<SCAIssueE
         if (res.status===200 || res.status===201){
             scaIssues = {...res.data};
         }
-        console.log('issues data:');
-        console.log(scaIssues);
+        //console.log('issues data:');
+        //console.log(scaIssues);
         // console.log('refreshIssues - before fire');
         this._onDidChangeTreeData.fire(undefined);    
       }
