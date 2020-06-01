@@ -43,11 +43,12 @@ export function generateHeader (host:string, urlPpath:string, method:string) {
     }
     
     if (id === undefined || id.length===0 || secret===undefined || secret.length===0){
-        console.error('No credentials provided');
+        //console.error('No credentials provided or incorrect credentials');
+        vscode.window.showErrorMessage('No Veracode API credentials found. Please check your "API profile in configuration file" setting at the IDE Veracode extension');
         return;
     }
 
-	var data = `id=${id}&host=${host}&url=${urlPpath}&method=${method}`;
+    var data = `id=${id}&host=${host}&url=${urlPpath}&method=${method}`;
 	var timestamp = (new Date().getTime()).toString();
 	var nonce = crypto.randomBytes(16).toString("hex");
 

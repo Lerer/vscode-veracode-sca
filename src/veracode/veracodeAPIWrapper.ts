@@ -105,8 +105,11 @@ export class ApiService {
                     'Accept-Encoding': "" 
                 } 
             })
-            .catch(error => error.message);
-        // console.log(response);
+            .catch(error => {
+                console.log(error.message);
+                return error.response;
+            });
+        //console.log(response);
         // console.log(response.data);
         // console.log(response.status);
         // console.log(response.statusText);

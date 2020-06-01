@@ -40,9 +40,12 @@ export class SCAWorkspacesViewProvider  implements vscode.TreeDataProvider<SCAWo
         //console.log(dynamicScaWorkspaces);
         if (res.status===200 || res.status===201){
             dynamicScaWorkspaces = {...res.data};
+            this._onDidChangeTreeData.fire(undefined);
+        } else {
+            vscode.window.showErrorMessage('Get Workspaces API failed with error code: '+res.status+'. Please check and verify your credentials and permissions.');
         }
         //console.log(dynamicScaWorkspaces);
-        this._onDidChangeTreeData.fire(undefined);
+        
     }
 }
 

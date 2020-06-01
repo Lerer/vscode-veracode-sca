@@ -88,46 +88,27 @@ function getIssueTreeItem(id: string): vscode.TreeItem {
     let issueElement = scaIssues._embedded.issues.filter(ele => ele.id === id)[0];
     let issueType = issueElement.issue_type;
     let sevRating = severityRating(issueElement.severity);
-    if (issueType==='library') {
-      return {
-        label: 'Outdated library ['+ issueElement.library.name+' '+issueElement.library.version+'] => '+issueElement.library_updated_version,
-        iconPath: {
-          light: path.join(__dirname,'..','resources','light','severity_'+sevRating+'.svg'),
-          dark: path.join(__dirname,'..','resources','dark','severity_'+sevRating+'.svg'),
-        }
-      };
+    let treeItem: vscode.TreeItem = {
+      iconPath: {
+        light: path.join(__dirname,'..','resources','light','severity_'+sevRating+'.svg'),
+        dark: path.join(__dirname,'..','resources','dark','severity_'+sevRating+'.svg'),
+      },
+      resourceUri: vscode.Uri.parse(issueElement._links.html.href)
+    };
+    let label = issueElement.issue_type+ ' [' + issueElement.library.name+' '+issueElement.library.version+']' ;
+    if (issueType==='library') { 
+      label =  'Outdated library ['+ issueElement.library.name+' '+issueElement.library.version+'] => '+issueElement.library_updated_version;
     } else if (issueType === 'vulnerability') {
       let cve = issueElement.vulnerability?.cve;
       if (cve === undefined) {
         cve = 'No CVE';
       }
-      return {
-        label: 'Vulnerability [' + issueElement.library.name+' '+issueElement.library.version+'] => '+cve+':'+issueElement.vulnerability?.title,
-        iconPath: {
-          light: path.join(__dirname,'..','resources','light','severity_'+sevRating+'.svg'),
-          dark: path.join(__dirname,'..','resources','dark','severity_'+sevRating+'.svg'),
-        }
-      };
+      label = 'Vulnerability [' + issueElement.library.name+' '+issueElement.library.version+'] => '+cve+':'+issueElement.vulnerability?.title;       
     } else if (issueType==='license') {
-      return {
-        label: 'License ['+ issueElement.library.name+' '+issueElement.library.version+'] => '+issueElement.license.id+' -> with risk: '+issueElement.license.risk,
-        iconPath: {
-          light: path.join(__dirname,'..','resources','light','severity_'+sevRating+'.svg'),
-          dark: path.join(__dirname,'..','resources','dark','severity_'+sevRating+'.svg'),
-        }
-      };
-   
-    } else {
-      return {
-        label: issueElement.issue_type+ ' [' + issueElement.library.name+' '+issueElement.library.version+']' ,
-        //tooltip: `Tooltip for ${wsElement["name"]}`,
-        resourceUri: vscode.Uri.parse(issueElement._links.self.href),
-        iconPath: {
-          light: path.join(__dirname,'..','resources','light','severity_'+sevRating+'.svg'),
-          dark: path.join(__dirname,'..','resources','dark','severity_'+sevRating+'.svg'),
-        }
-      };
-    }
+      label = 'License ['+ issueElement.library.name+' '+issueElement.library.version+'] => '+issueElement.license.id+' -> with risk: '+issueElement.license.risk;
+    } 
+    treeItem.label = label;
+    return treeItem;
   }
 
 let scaIssues : any = {   };
