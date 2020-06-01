@@ -12,7 +12,7 @@ The current version is still lacking images to make it super nice, however, you 
 
 
 
-![Screenshot](media/Screen%20Shot%202020-05-30%20at%201.35.54%20am.png?raw=true)
+![Screenshot](media/Screen%20Shot%202020-06-01%20at%2011.45.26%20am.png?raw=true)
 
 
 ## Requirements
@@ -23,9 +23,9 @@ See instructions in [Veracode Help](https://help.veracode.com/reader/LMv_dtSHyb7
 
 ## Extension Settings
 
-This extension **will** contributes the following settings:
+This extension contributes the following settings:
 
-* `veracode.sca.profile`: specify the `profile` to use from the credentials file (currently only set to `[default]`)
+* `veracode.API profile in configuration file`: specify the `profile` to use from the credentials file (default profile is set to `default`)
 
 ## Known Issues
 
@@ -37,6 +37,11 @@ Images and icons need update
 
 - Initial release of the plugin
 - Can pull Workspaces, Projects, and Issues 
+
+### 0.0.2
+
+- update issues icons
+- added configuration for selecting section in the credentials file
 
 ### future...
 
