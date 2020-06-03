@@ -3,7 +3,8 @@ import {specificRequest} from './veracode/veracodeAPIWrapper';
 import * as path from 'path';
 
 interface SCAIssueElement {
-    id: string
+    id: string,
+    type: string
 }
 
 export class SCAIssuesViewProvider  implements vscode.TreeDataProvider<SCAIssueElement>{
@@ -12,51 +13,52 @@ export class SCAIssuesViewProvider  implements vscode.TreeDataProvider<SCAIssueE
     private _onDidChangeTreeData: vscode.EventEmitter<vscode.TreeItem | undefined> = new vscode.EventEmitter<vscode.TreeItem | undefined>();
     readonly onDidChangeTreeData: vscode.Event<any> = this._onDidChangeTreeData.event;
 
-    private currentWorkspaceId: string='';
-    private currentProjectId:string='';
+    //private currentWorkspaceId: string='';
+    //private currentProjectId:string='';
 
     getChildren (element: SCAIssueElement|undefined): SCAIssueElement[]  {
-        // console.log('Issues - getChildren');
-        if ((!element) || (element===undefined) || element.id==='_root') {
-          // console.log('Issues - getChildren - request for root');
-            if (scaIssues._embedded!==undefined && scaIssues._embedded.issues!==undefined) {
-                // vscode.window.showInformationMessage("Issues - root element");
-                return scaIssues._embedded.issues
-                    .map(issue => { return {id: issue.id};});
-            } else {
-              // console.log('Issues - getChildren - request for root - no data');
-                return [];
-            }
-        }
-        if (element.id !== '_root') {
-          // vscode.window.showInformationMessage("leaf element: "+element.id);
-          return [];
-        }
-        // vscode.window.showInformationMessage("not possible "+element);
+      if (scaIssues._embedded===undefined || scaIssues._embedded.issues===undefined) {
         return [];
+      }
+
+      let issues = scaIssues._embedded.issues;
+
+      if ((!element) || (element===undefined) ) {
+        return getGroupingElements();
+      } else if (element?.id.length>19){
+        return [];
+      } else {
+        // get grouped elements
+        // vscode.window.showInformationMessage("Issues - root element");
+        return issues.
+          filter(issue => issue.issue_type===element.type).
+          map(issue => { return {
+            id: issue.id,
+            type:issue.issue_type
+          };});    
+      }
+      // vscode.window.showInformationMessage("not possible "+element);
+      return [];
     }
 
     getTreeItem (element: SCAIssueElement): vscode.TreeItem  {
-      //console.log(getIssueTreeItem(element.id));
-        return getIssueTreeItem(element.id);
+        return getIssueTreeItem(element);
     }
 
     async refreshIssues(projId:string,wsId: string) {
-        this.currentWorkspaceId = wsId;
-        this.currentProjectId=projId;
+        //this.currentWorkspaceId = wsId;
+        //this.currentProjectId=projId;
         let res = await specificRequest('getProjectIssues',{workspace_id:wsId,project_id:projId});
         if (res.status===200 || res.status===201){
             scaIssues = {...res.data};
         }
-        //console.log('issues data:');
-        //console.log(scaIssues);
-        // console.log('refreshIssues - before fire');
+        
         this._onDidChangeTreeData.fire(undefined);    
       }
 
     cleanIssues() {
-      this.currentWorkspaceId = '';
-      this.currentProjectId = '';
+      //this.currentWorkspaceId = '';
+      //this.currentProjectId = '';
       scaIssues = {};
       this._onDidChangeTreeData.fire(undefined);
     }
@@ -77,14 +79,28 @@ function severityRating(cvssValue: number): string {
   return 'informational';
 }
 
+function getGroupingElements(): SCAIssueElement[] {
+  return [
+    {id: 'Outdated libraries',type: 'library'},
+    {id: 'Vulnerabilities',type: 'vulnerability'},
+    {id: 'Licenses',type: 'license'}
+  ];
 
-function getIssueTreeItem(id: string): vscode.TreeItem {
+}
+
+
+function getIssueTreeItem(element:SCAIssueElement): vscode.TreeItem {
+  let id = element.id;
+  //console.log('issues - get tree item got: '+id);
     //vscode.window.showInformationMessage("getTreeItem for id "+id);
-    if (id==='_root') {
+    if (id.length<19) {
+      let label = id + ' ['+ scaIssues._embedded.issues.filter(issue => issue.issue_type===element.type).length+ ']';
       return {
-        label: "Issues"
+        label: label,
+        collapsibleState: vscode.TreeItemCollapsibleState.Collapsed
       };
     }
+    //console.log(scaIssues._embedded === undefined);
     let issueElement = scaIssues._embedded.issues.filter(ele => ele.id === id)[0];
     let issueType = issueElement.issue_type;
     let sevRating = severityRating(issueElement.severity);
@@ -97,15 +113,15 @@ function getIssueTreeItem(id: string): vscode.TreeItem {
     };
     let label = issueElement.issue_type+ ' [' + issueElement.library.name+' '+issueElement.library.version+']' ;
     if (issueType==='library') { 
-      label =  'Outdated library ['+ issueElement.library.name+' '+issueElement.library.version+'] => '+issueElement.library_updated_version;
+      label =  ''+ issueElement.library.name+' ['+issueElement.library.version+'] => ['+issueElement.library_updated_version+']';
     } else if (issueType === 'vulnerability') {
       let cve = issueElement.vulnerability?.cve;
       if (cve === undefined) {
         cve = 'No CVE';
       }
-      label = 'Vulnerability [' + issueElement.library.name+' '+issueElement.library.version+'] => '+cve+':'+issueElement.vulnerability?.title;       
+      label = issueElement.library.name+' '+issueElement.library.version+' => '+cve+': '+issueElement.vulnerability?.title;       
     } else if (issueType==='license') {
-      label = 'License ['+ issueElement.library.name+' '+issueElement.library.version+'] => '+issueElement.license.id+' -> with risk: '+issueElement.license.risk;
+      label = issueElement.library.name+' '+issueElement.library.version+' => '+issueElement.license.id+' -> with risk: '+issueElement.license.risk;
     } 
     treeItem.label = label;
     return treeItem;

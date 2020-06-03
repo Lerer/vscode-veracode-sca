@@ -17,7 +17,7 @@ export class SCAProjectsViewProvider  implements vscode.TreeDataProvider<SCAProj
     private currentWorkspaceId: string='';
 
     getChildren (element: SCAProjectElement|undefined): SCAProjectElement[]  {
-        if ((!element) || (element===undefined) || element.id==='_root') {
+        if ((!element) || (element===undefined) ) {
             if (scaProjects._embedded!==undefined && scaProjects._embedded.projects!==undefined) {
                 //vscode.window.showInformationMessage("root element");
                 return scaProjects._embedded.projects
