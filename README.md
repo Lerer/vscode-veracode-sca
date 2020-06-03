@@ -10,9 +10,9 @@ The current version is still lacking images to make it super nice, however, you 
 * Get a list of project within each of your workspaces - by selecting a workspace
 * Get a list of issues within your individual project - by selecting a project
 
-
-
-![Screenshot](media/ScreenShot_2020-06-03_at_3.18.53_pm.png?raw=true)
+<p align=center>
+<img src="media/ScreenShot_2020-06-03_at_3.18.53_pm.png" width="500">
+</p>
 
 
 ## Requirements
