@@ -12,7 +12,7 @@ The current version is still lacking images to make it super nice, however, you 
 
 
 
-![Screenshot](media/ScreenShot_2020-06-03_at_3.18.53_pm.png?raw=true | width=500)
+![Screenshot](media/ScreenShot_2020-06-03_at_3.18.53_pm.png?raw=true)
 
 
 ## Requirements
