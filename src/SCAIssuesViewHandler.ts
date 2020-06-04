@@ -109,7 +109,8 @@ function getIssueTreeItem(element:SCAIssueElement): vscode.TreeItem {
         light: path.join(__dirname,'..','resources','light','severity_'+sevRating+'.svg'),
         dark: path.join(__dirname,'..','resources','dark','severity_'+sevRating+'.svg'),
       },
-      resourceUri: vscode.Uri.parse(issueElement._links.html.href)
+      resourceUri: vscode.Uri.parse(issueElement._links.html.href),
+      contextValue: issueType
     };
     let label = issueElement.issue_type+ ' [' + issueElement.library.name+' '+issueElement.library.version+']' ;
     if (issueType==='library') { 
