@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
-import {specificRequest} from './veracode/veracodeAPIWrapper';
+import {specificRequest} from '../veracode/veracodeAPIWrapper';
+import {getSeverityRatingFromCVSS} from '../veracode/constants';
 import * as path from 'path';
 
 interface SCAIssueElement {
@@ -64,21 +65,6 @@ export class SCAIssuesViewProvider  implements vscode.TreeDataProvider<SCAIssueE
     }
 };
 
-function severityRating(cvssValue: number): string {
-  if (cvssValue<2.1 && cvssValue>=0.1) {
-    return 'very_low';
-  } else if (cvssValue<4.1){
-    return 'low';
-  } else if (cvssValue<6.1) {
-    return 'medium';
-  } else if (cvssValue<8.1) {
-    return 'high';
-  } else if (cvssValue<10.1) {
-    return 'very_high';
-  } 
-  return 'informational';
-}
-
 function getGroupingElements(): SCAIssueElement[] {
   return [
     {id: 'Outdated libraries',type: 'library'},
@@ -103,7 +89,7 @@ function getIssueTreeItem(element:SCAIssueElement): vscode.TreeItem {
     //console.log(scaIssues._embedded === undefined);
     let issueElement = scaIssues._embedded.issues.filter(ele => ele.id === id)[0];
     let issueType = issueElement.issue_type;
-    let sevRating = severityRating(issueElement.severity);
+    let sevRating = getSeverityRatingFromCVSS(issueElement.severity);
     let treeItem: vscode.TreeItem = {
       iconPath: {
         light: path.join(__dirname,'..','resources','light','severity_'+sevRating+'.svg'),

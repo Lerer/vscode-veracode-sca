@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import {specificRequest} from './veracode/veracodeAPIWrapper';
+import {specificRequest} from '../veracode/veracodeAPIWrapper';
 
 
 interface SCAWorkspaceElement {

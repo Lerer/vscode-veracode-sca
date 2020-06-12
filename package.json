@@ -4,7 +4,9 @@
 	"description": "",
 	"version": "0.0.2",
 	"publisher": "Lerer",
-	"repository": {"url": "https://github.com/Lerer/vscode-veracode-sca"},
+	"repository": {
+		"url": "https://github.com/Lerer/vscode-veracode-sca"
+	},
 	"engines": {
 		"vscode": "^1.45.0"
 	},
@@ -12,7 +14,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:workSpaces"
+		"onView:workSpaces",
+		"onView:localProject"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -27,6 +30,10 @@
 		},
 		"views": {
 			"veracode-sca": [
+				{
+					"id": "localProject",
+					"name": "Local Project"
+				},
 				{
 					"id": "workSpaces",
 					"name": "Workspaces"
@@ -43,38 +50,60 @@
 		},
 		"commands": [
 			{
-                "command": "workSpaces.refreshEntry",
-                "title": "Refresh",
-                "icon": {
-                    "light": "resources/light/refresh.svg",
-                    "dark": "resources/dark/refresh.svg"
-                }
-            }
+				"command": "localProject.refreshContent",
+				"title": "Refresh",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
+			},
+			{
+				"command":"workSpaces.selectNode",
+				"title": "Workspace Selected"
+			},
+			{
+				"command": "wsProjects.selectNode",
+				"title": "Project Selected"
+			},
+			{
+				"command": "workSpaces.refreshEntry",
+				"title": "Scan current project dependencies",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
+			}
 		],
 		"menus": {
-            "view/title": [
-                {
-                    "command": "workSpaces.refreshEntry",
-                    "when": "view == workSpaces",
-                    "group": "navigation"
-                }
-			  ]
+			"view/title": [
+				{
+					"command": "workSpaces.refreshEntry",
+					"when": "view == workSpaces",
+					"group": "navigation"
+				},
+				{
+					"command": "localProject.refreshContent",
+					"when": "view == localProject",
+					"group": "navigation"
+				}
+
+			]
 		},
 		"configuration": [
-            {
-                "type": "object",
-                "title": "Veracode",
-                "properties": {
-                    "veracode.API profile in configuration file": {
-                        "$id": "securityProfile",
-                        "type": "string",
-                        "default": "default",
-                        "markdownDescription": "The profile (or section) of API credentials to be used for communicating with Veracode SCA.",
-                        "scope": "application"
-                    }
-                }
-            }
-        ]
+			{
+				"type": "object",
+				"title": "Veracode",
+				"properties": {
+					"veracode.API profile in configuration file": {
+						"$id": "securityProfile",
+						"type": "string",
+						"default": "default",
+						"markdownDescription": "The profile (or section) of API credentials to be used for communicating with Veracode SCA.",
+						"scope": "application"
+					}
+				}
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

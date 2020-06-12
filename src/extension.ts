@@ -3,9 +3,11 @@
 import * as vscode from 'vscode';
 
 //import { NodeDependenciesProvider, Dependency } from './nodeDependencies';
-import {SCAWorkspacesViewProvider} from './SCAWorkspaceViewHandler';
-import {SCAProjectsViewProvider} from './SCAProjectsViewHandler';
-import {SCAIssuesViewProvider} from './SCAIssuesViewHandler';
+import {SCAWorkspacesViewProvider} from './views/SCAWorkspaceViewHandler';
+import {SCAProjectsViewProvider} from './views/SCAProjectsViewHandler';
+import {SCAIssuesViewProvider} from './views/SCAIssuesViewHandler';
+import {SCALocalViewProvider} from './views/SCALocalProjectViewHandler';
+import {runAgentBasedSCA} from './veracode/localSCAProcessor';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -14,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "veracode-sca" is now active!');
-
+	
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
@@ -57,9 +59,25 @@ export function activate(context: vscode.ExtensionContext) {
 		scaIssuesProvider.refreshIssues(projId,wsId);
 	});
 
+	// SCA Local scan
+	const localProjectProvider = new SCALocalViewProvider();
+	vscode.window.createTreeView('localProject', {
+		treeDataProvider: localProjectProvider
+	});
+
+	vscode.commands.registerCommand('localProject.refreshContent', async() => {
+		console.log('localProject.refreshContent');
+		localProjectProvider.callForRefresh();
+	});	
+
+	vscode.commands.registerCommand('localProject.inputContent', async(args:any) => {
+		localProjectProvider.refreshLocalView(args);
+	});
+
 	// load Workspace list on load
 	scaWorkspacesProvider.refresh();
-
+	localProjectProvider.callForRefresh();
+	console.log('extension finish activation');
 }
 
 // this method is called when your extension is deactivated
