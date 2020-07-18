@@ -11,7 +11,13 @@ The current version is still lacking images to make it super nice, however, you 
 * Get a list of issues within your individual project - by selecting a project
 
 <p align=center>
-<img src="media/ScreenShot_2020-06-03_at_3.18.53_pm.png" width="500">
+<img src="media/ScreenShot_2020-06-03_at_3.18.53_pm.png" width="400">
+</p>
+
+* Review current working directory (only if local SCA agent is installed and configured)
+
+<p align=center>
+<img src="media/ScreenShot_2020-07-18_at_3.57.23_pm.png" width="400">
 </p>
 
 
@@ -20,7 +26,7 @@ The current version is still lacking images to make it super nice, however, you 
 The extension is utilizing the credentials setup in your pc account home directory. 
 See instructions in [Veracode Help](https://help.veracode.com/reader/LMv_dtSHyb7iIxAQznC~9w/zm4hbaPkrXi02YmacwH3wQ)
 
-
+ 
 ## Extension Settings
 
 This extension contributes the following settings:
@@ -32,6 +38,10 @@ This extension contributes the following settings:
 Images and icons need update
 
 ## Release Notes
+
+### 0.0.3
+
+- Add a view to refresh and view the local working folder for SCA libraries and vulnerabilities
 
 ### 0.0.2
 

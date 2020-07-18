@@ -2,7 +2,7 @@
 	"name": "veracode-sca",
 	"displayName": "Veracode SCA (TS)",
 	"description": "",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"publisher": "Lerer",
 	"repository": {
 		"url": "https://github.com/Lerer/vscode-veracode-sca"
