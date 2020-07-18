@@ -90,14 +90,16 @@ function getIssueTreeItem(element:SCAIssueElement): vscode.TreeItem {
     let issueElement = scaIssues._embedded.issues.filter(ele => ele.id === id)[0];
     let issueType = issueElement.issue_type;
     let sevRating = getSeverityRatingFromCVSS(issueElement.severity);
+    //console.log(sevRating);
     let treeItem: vscode.TreeItem = {
       iconPath: {
-        light: path.join(__dirname,'..','resources','light','severity_'+sevRating+'.svg'),
-        dark: path.join(__dirname,'..','resources','dark','severity_'+sevRating+'.svg'),
+        light: path.join(__dirname,'..','..','resources','light','severity_'+sevRating+'.svg'),
+        dark: path.join(__dirname,'..','..','resources','dark','severity_'+sevRating+'.svg'),
       },
       resourceUri: vscode.Uri.parse(issueElement._links.html.href),
       contextValue: issueType
     };
+
     let label = issueElement.issue_type+ ' [' + issueElement.library.name+' '+issueElement.library.version+']' ;
     if (issueType==='library') { 
       label =  ''+ issueElement.library.name+' ['+issueElement.library.version+'] => ['+issueElement.library_updated_version+']';
@@ -111,6 +113,7 @@ function getIssueTreeItem(element:SCAIssueElement): vscode.TreeItem {
       label = issueElement.library.name+' '+issueElement.library.version+' => '+issueElement.license.id+' -> with risk: '+issueElement.license.risk;
     } 
     treeItem.label = label;
+    //console.log(treeItem);
     return treeItem;
   }
 

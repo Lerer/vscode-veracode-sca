@@ -48,6 +48,12 @@
 				}
 			]
 		},
+		"viewsWelcome": [
+			{
+				"view":"localProject",
+				"contents": "Please refresh the view to scan the local folder"
+			}
+		],
 		"commands": [
 			{
 				"command": "localProject.refreshContent",

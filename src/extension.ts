@@ -76,7 +76,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// load Workspace list on load
 	scaWorkspacesProvider.refresh();
-	localProjectProvider.callForRefresh();
+	//localProjectProvider.callForRefresh();
 	console.log('extension finish activation');
 }
 
