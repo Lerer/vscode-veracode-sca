@@ -7,7 +7,7 @@ import {SCAWorkspacesViewProvider} from './views/SCAWorkspaceViewHandler';
 import {SCAProjectsViewProvider} from './views/SCAProjectsViewHandler';
 import {SCAIssuesViewProvider} from './views/SCAIssuesViewHandler';
 import {SCALocalViewProvider} from './views/SCALocalProjectViewHandler';
-import {runAgentBasedSCA} from './veracode/localSCAProcessor';
+//import {runAgentBasedSCA} from './veracode/localSCAProcessor';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed

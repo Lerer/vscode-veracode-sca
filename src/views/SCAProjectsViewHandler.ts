@@ -73,7 +73,7 @@ export class SCAProjectsViewProvider  implements vscode.TreeDataProvider<SCAProj
         scaProjects = {...emptyProjects};
         this._onDidChangeTreeData.fire(undefined);
     }
-};
+}
 
 
 // function getProjTreeItem(id: string,wsId:string): vscode.TreeItem {

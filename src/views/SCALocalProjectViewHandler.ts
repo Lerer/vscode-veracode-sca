@@ -15,7 +15,7 @@ interface SCALocalLibraryElement {
     versions: [string]
     details?:any
     type: string,
-    parent?: undefined|null|SCALocalLibraryElement
+    parent?: null|SCALocalLibraryElement
 }
 
 interface SCAUnmatchedLibraryElement {
@@ -43,7 +43,7 @@ interface SCALocalVulnerabiltyElementDetails {
 
 interface SCAStructureElement {
     id: string
-    parent?: string|undefined
+    parent?: string
     details?: SCALocalLibraryElement | SCAUnmatchedLibraryElement | SCALocalVulnerabiltyElementDetails,
     structType: "lib"| "unmatched"|"vulnerability",
     label?: string
@@ -209,15 +209,15 @@ export class SCALocalViewProvider  implements vscode.TreeDataProvider<SCAStructu
                     return libElement;
                 });
             // build the liberary wrapper
-            unmatchedGraph = await unmatchedLibraries
+            unmatchedGraph = unmatchedLibraries
                 .map(umlib => {
                     let element: SCAStructureElement = {
-                        id: 'struct-'+umlib.id,
+                        id: 'struct-' + umlib.id,
                         parent: 'unmatchedLibraries',
                         details: umlib,
                         label: umlib.label,
                         structType: 'unmatched'
-                    } ;
+                    };
                     return element;
                 });
         } else {

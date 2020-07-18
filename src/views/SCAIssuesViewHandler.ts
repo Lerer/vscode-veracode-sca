@@ -63,7 +63,7 @@ export class SCAIssuesViewProvider  implements vscode.TreeDataProvider<SCAIssueE
       scaIssues = {};
       this._onDidChangeTreeData.fire(undefined);
     }
-};
+}
 
 function getGroupingElements(): SCAIssueElement[] {
   return [
@@ -80,9 +80,9 @@ function getIssueTreeItem(element:SCAIssueElement): vscode.TreeItem {
   //console.log('issues - get tree item got: '+id);
     //vscode.window.showInformationMessage("getTreeItem for id "+id);
     if (id.length<19) {
-      let label = id + ' ['+ scaIssues._embedded.issues.filter(issue => issue.issue_type===element.type).length+ ']';
+      let parentLabel = id + ' ['+ scaIssues._embedded.issues.filter(issue => issue.issue_type===element.type).length+ ']';
       return {
-        label: label,
+        label: parentLabel,
         collapsibleState: vscode.TreeItemCollapsibleState.Collapsed
       };
     }
