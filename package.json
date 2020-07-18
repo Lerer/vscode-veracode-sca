@@ -50,7 +50,7 @@
 		},
 		"viewsWelcome": [
 			{
-				"view":"localProject",
+				"view": "localProject",
 				"contents": "Please refresh the view to scan the local folder"
 			}
 		],
@@ -64,7 +64,7 @@
 				}
 			},
 			{
-				"command":"workSpaces.selectNode",
+				"command": "workSpaces.selectNode",
 				"title": "Workspace Selected"
 			},
 			{
@@ -92,7 +92,6 @@
 					"when": "view == localProject",
 					"group": "navigation"
 				}
-
 			]
 		},
 		"configuration": [
