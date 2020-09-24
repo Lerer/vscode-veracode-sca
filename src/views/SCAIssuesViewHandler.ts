@@ -3,6 +3,8 @@ import {specificRequest} from '../veracode/veracodeAPIWrapper';
 import {getSeverityRatingFromCVSS} from '../veracode/constants';
 import * as path from 'path';
 
+const MAX_ISSUES = 100;
+
 interface SCAIssueElement {
     id: string,
     type: string
@@ -66,11 +68,22 @@ export class SCAIssuesViewProvider  implements vscode.TreeDataProvider<SCAIssueE
 }
 
 function getGroupingElements(): SCAIssueElement[] {
-  return [
+
+  const rootChildren = [
     {id: 'Outdated libraries',type: 'library'},
     {id: 'Vulnerabilities',type: 'vulnerability'},
     {id: 'Licenses',type: 'license'}
   ];
+
+  const total:number = scaIssues.page.total_elements;
+  if (total > MAX_ISSUES) {
+    rootChildren.push({
+      id: 'missing_issues',
+      type: 'more'
+    });
+  }
+  
+  return rootChildren;
 
 }
 
@@ -80,11 +93,22 @@ function getIssueTreeItem(element:SCAIssueElement): vscode.TreeItem {
   //console.log('issues - get tree item got: '+id);
     //vscode.window.showInformationMessage("getTreeItem for id "+id);
     if (id.length<19) {
-      let parentLabel = id + ' ['+ scaIssues._embedded.issues.filter(issue => issue.issue_type===element.type).length+ ']';
-      return {
-        label: parentLabel,
-        collapsibleState: vscode.TreeItemCollapsibleState.Collapsed
-      };
+      console.log(scaIssues.page);      
+      if (element.type==='more'){
+        let total:number = scaIssues.page.total_elements;
+        let parentLabel = `Showing only 100 out of ${total} issues`;
+        return {
+          label: parentLabel,
+          collapsibleState: vscode.TreeItemCollapsibleState.None
+        };
+      } else {
+        // Normal tree parent: licenses, vulnerabilities or outdated libraries
+        let parentLabel = id + ' ['+ scaIssues._embedded.issues.filter(issue => issue.issue_type===element.type).length+ ']';
+        return {
+          label: parentLabel,
+          collapsibleState: vscode.TreeItemCollapsibleState.Collapsed
+        };
+      }
     }
     //console.log(scaIssues._embedded === undefined);
     let issueElement = scaIssues._embedded.issues.filter(ele => ele.id === id)[0];

@@ -35,7 +35,12 @@ This extension contributes the following settings:
 
 ## Known Issues
 
-Images and icons need update
+Images and icons need update  
+
+The plugin is currently only support 100 issues in a single project. In case there are more issues, you'll see a note in the issues pane:
+<p align=center>
+<img src="media/ScreenShot_2020-09-24_at_10.17.51_am.png" width="300">
+</p>
 
 ## Release Notes
 
