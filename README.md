@@ -44,6 +44,10 @@ The plugin is currently only support 100 issues in a single project. In case the
 
 ## Release Notes
 
+### 0.1.0-beta
+
+- Note added for projects with more than 100 issues
+
 ### 0.0.3
 
 - Add a view to refresh and view the local working folder for SCA libraries and vulnerabilities
