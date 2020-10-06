@@ -42,7 +42,7 @@ const requests: RequestDetails[] = [
     },
     {
         name: "getProjectIssues",
-        path: '/srcclr/v3/workspaces/<workspace_id>/issues?project_id=<project_id>&size=100',
+        path: '/srcclr/v3/workspaces/<workspace_id>/issues?project_id=<project_id>&size=1000',
         host: 'api.veracode.com',
         method: 'GET',
         queryParams: ''

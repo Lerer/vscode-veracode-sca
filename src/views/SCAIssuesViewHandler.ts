@@ -3,7 +3,7 @@ import {specificRequest} from '../veracode/veracodeAPIWrapper';
 import {getSeverityRatingFromCVSS} from '../veracode/constants';
 import * as path from 'path';
 
-const MAX_ISSUES = 100;
+const MAX_ISSUES = 1000;
 
 interface SCAIssueElement {
     id: string,
@@ -59,7 +59,7 @@ export class SCAIssuesViewProvider  implements vscode.TreeDataProvider<SCAIssueE
         this._onDidChangeTreeData.fire(undefined);    
       }
 
-    cleanIssues() {
+      cleanIssues() {
       //this.currentWorkspaceId = '';
       //this.currentProjectId = '';
       scaIssues = {};
@@ -96,7 +96,7 @@ function getIssueTreeItem(element:SCAIssueElement): vscode.TreeItem {
       console.log(scaIssues.page);      
       if (element.type==='more'){
         let total:number = scaIssues.page.total_elements;
-        let parentLabel = `Showing only 100 out of ${total} issues`;
+        let parentLabel = `Showing only ${MAX_ISSUES} out of ${total} issues`;
         return {
           label: parentLabel,
           collapsibleState: vscode.TreeItemCollapsibleState.None

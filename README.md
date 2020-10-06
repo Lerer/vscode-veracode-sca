@@ -44,6 +44,11 @@ The plugin is currently only support 100 issues in a single project. In case the
 
 ## Release Notes
 
+### 0.1.1-beta
+
+- Increase max issues import to 1000 issues
+- Update the note for missing issues if there are more than 1000
+
 ### 0.1.0-beta
 
 - Note added for projects with more than 100 issues
