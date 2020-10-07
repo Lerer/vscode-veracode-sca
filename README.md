@@ -37,12 +37,17 @@ This extension contributes the following settings:
 
 Images and icons need update  
 
-The plugin is currently only support 100 issues in a single project. In case there are more issues, you'll see a note in the issues pane:
+The plugin is currently only support ~~100~~ 1000 issues in a single project. In case there are more issues, you'll see a note in the issues pane similar to the image below:
 <p align=center>
 <img src="media/ScreenShot_2020-09-24_at_10.17.51_am.png" width="300">
 </p>
 
 ## Release Notes
+
+### 0.1.1-beta
+
+- Increase max issues import to 1000 issues
+- Update the note for missing issues if there are more than 1000
 
 ### 0.1.0-beta
 
